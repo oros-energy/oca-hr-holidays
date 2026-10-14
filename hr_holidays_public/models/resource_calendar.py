@@ -5,7 +5,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import models
-from odoo.tools.intervals import Intervals
+
+from odoo.addons.resource.models.resource_resource import Intervals
 
 
 class ResourceCalendar(models.Model):
@@ -42,7 +43,6 @@ class ResourceCalendar(models.Model):
     def _attendance_intervals_batch(
         self, start_dt, end_dt, resources_per_tz=None, domain=None
     ):
-        # Odoo 20: resources are passed grouped by timezone
         res = super()._attendance_intervals_batch(
             start_dt=start_dt,
             end_dt=end_dt,

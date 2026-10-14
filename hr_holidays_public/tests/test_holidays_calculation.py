@@ -16,12 +16,10 @@ class TestHolidaysComputeDaysBase(TestCalendarPublicHoliday):
     def setUpClass(cls):
         super().setUpClass()
         cls.HrLeave = cls.env["hr.leave"]
-        # Odoo 20: leave types are hr.work.entry.type records
         cls.HrLeaveType = cls.env["hr.work.entry.type"]
         cls.calendar = cls.env["resource.calendar"].create(
             {"name": "Calendar", "attendance_ids": []}
         )
-        # Odoo 20: resource.calendar.attendance has no name
         for day in range(5):  # From monday to friday
             cls.calendar.attendance_ids = [
                 (

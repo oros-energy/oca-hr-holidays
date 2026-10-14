@@ -152,9 +152,6 @@ class TestHolidaysPublic(TestCalendarPublicHoliday):
 
     @freeze_time("2024-12-25")
     def test_user_im_status(self):
-        # Odoo 20 has no leave_* presence states for users and partners any
-        # more, so the im_status part of the 19.0 test is gone. The employee
-        # still shows as absent on a public holiday.
         self.assertTrue(self.employee.is_public_holiday)
         self.assertEqual(self.employee.hr_icon_display, "presence_holiday_absent")
         self.assertTrue(self.employee.is_absent)

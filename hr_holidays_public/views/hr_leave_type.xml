@@ -4,7 +4,6 @@
         Copyright 2018 Brainbean Apps (https://brainbeanapps.com)
         License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
     -->
-    <!-- Odoo 20: leave types are hr.work.entry.type records -->
     <record id="edit_holiday_status_form" model="ir.ui.view">
         <field name="name">hr.work.entry.type.form</field>
         <field name="model">hr.work.entry.type</field>
