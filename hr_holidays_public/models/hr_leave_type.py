@@ -6,7 +6,8 @@ from odoo import fields, models
 
 
 class HrLeaveType(models.Model):
-    _inherit = "hr.leave.type"
+    # Odoo 20: leave types are hr.work.entry.type records
+    _inherit = "hr.work.entry.type"
 
     exclude_public_holidays = fields.Boolean(
         default=True,

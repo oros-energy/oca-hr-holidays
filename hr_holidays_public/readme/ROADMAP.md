@@ -15,3 +15,14 @@ custom fields.
 Regional public holidays are shown in the public calendar. The regions
 will be noted in the description of the event, but it'll be shown to all
 users. It'd be good to have it show only for users in these regions.
+
+Since Odoo 20.0 the time off types are `hr.work.entry.type` records and the
+"Exclude Public Holidays" option is stored there. It only applies to the public
+holidays of this module (`calendar.public.holiday`). The core option "Ignore
+Public Holidays" applies to the company holidays of Odoo
+(`resource.calendar.leaves`) only.
+
+Odoo 20.0 no longer has the `leave_*` presence states of users and partners.
+Employees are shown as absent on a public holiday, but the chat presence does
+not show them as on leave, because Odoo 20.0 derives that from the
+`leave_date_to` of the employee, which this module does not set.

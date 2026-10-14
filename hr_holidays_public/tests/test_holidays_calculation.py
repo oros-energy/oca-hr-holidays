@@ -16,17 +16,18 @@ class TestHolidaysComputeDaysBase(TestCalendarPublicHoliday):
     def setUpClass(cls):
         super().setUpClass()
         cls.HrLeave = cls.env["hr.leave"]
-        cls.HrLeaveType = cls.env["hr.leave.type"]
+        # Odoo 20: leave types are hr.work.entry.type records
+        cls.HrLeaveType = cls.env["hr.work.entry.type"]
         cls.calendar = cls.env["resource.calendar"].create(
             {"name": "Calendar", "attendance_ids": []}
         )
+        # Odoo 20: resource.calendar.attendance has no name
         for day in range(5):  # From monday to friday
             cls.calendar.attendance_ids = [
                 (
                     0,
                     0,
                     {
-                        "name": "Attendance",
                         "dayofweek": str(day),
                         "hour_from": "08",
                         "hour_to": "12",
@@ -36,7 +37,6 @@ class TestHolidaysComputeDaysBase(TestCalendarPublicHoliday):
                     0,
                     0,
                     {
-                        "name": "Attendance",
                         "dayofweek": str(day),
                         "hour_from": "14",
                         "hour_to": "18",
@@ -111,11 +111,18 @@ class TestHolidaysComputeDaysBase(TestCalendarPublicHoliday):
         )
 
         cls.holiday_type = cls.HrLeaveType.create(
-            {"name": "Leave Type Test", "exclude_public_holidays": True}
+            {
+                "name": "Leave Type Test",
+                "code": "HHPTEST1",
+                "count_as": "absence",
+                "exclude_public_holidays": True,
+            }
         )
         cls.holiday_type_no_excludes = cls.HrLeaveType.create(
             {
                 "name": "Leave Type Test Without excludes",
+                "code": "HHPTEST2",
+                "count_as": "absence",
                 "exclude_public_holidays": False,
             }
         )
@@ -127,7 +134,7 @@ class TestHolidaysComputeDays(TestHolidaysComputeDaysBase):
             {
                 "date_from": "1946-12-23 00:00:00",  # Monday
                 "date_to": "1946-12-29 23:59:59",  # Sunday
-                "holiday_status_id": self.holiday_type.id,
+                "work_entry_type_id": self.holiday_type.id,
                 "employee_id": self.employee_1.id,
             }
         )
@@ -138,7 +145,7 @@ class TestHolidaysComputeDays(TestHolidaysComputeDaysBase):
             {
                 "date_from": "1946-12-23 00:00:00",  # Monday
                 "date_to": "1946-12-29 23:59:59",  # Sunday
-                "holiday_status_id": self.holiday_type.id,
+                "work_entry_type_id": self.holiday_type.id,
                 "employee_id": self.employee_2.id,
             }
         )
@@ -149,7 +156,7 @@ class TestHolidaysComputeDays(TestHolidaysComputeDaysBase):
             {
                 "date_from": "1946-12-23 00:00:00",  # Monday
                 "date_to": "1946-12-29 23:59:59",  # Sunday
-                "holiday_status_id": self.holiday_type_no_excludes.id,
+                "work_entry_type_id": self.holiday_type_no_excludes.id,
                 "employee_id": self.employee_1.id,
             }
         )
@@ -160,7 +167,7 @@ class TestHolidaysComputeDays(TestHolidaysComputeDaysBase):
             {
                 "date_from": "1946-12-23 00:00:00",  # Monday
                 "date_to": "1947-01-03 23:59:59",  # Friday
-                "holiday_status_id": self.holiday_type.id,
+                "work_entry_type_id": self.holiday_type.id,
                 "employee_id": self.employee_1.id,
             }
         )
@@ -171,7 +178,7 @@ class TestHolidaysComputeDays(TestHolidaysComputeDaysBase):
             {
                 "date_from": "1946-12-23 00:00:00",  # Monday
                 "date_to": "1947-01-03 23:59:59",  # Friday
-                "holiday_status_id": self.holiday_type.id,
+                "work_entry_type_id": self.holiday_type.id,
                 "employee_id": self.employee_2.id,
             }
         )
@@ -183,7 +190,7 @@ class TestHolidaysComputeDays(TestHolidaysComputeDaysBase):
             {
                 "date_from": "1946-12-23 00:00:00",  # Monday
                 "date_to": "1946-12-29 23:59:59",  # Sunday
-                "holiday_status_id": self.holiday_type.id,
+                "work_entry_type_id": self.holiday_type.id,
                 "employee_id": self.employee_2.id,
             }
         )
@@ -195,7 +202,7 @@ class TestHolidaysComputeDays(TestHolidaysComputeDaysBase):
             {
                 "date_from": "1946-12-23 00:00:00",  # Monday
                 "date_to": "1946-12-29 23:59:59",  # Sunday
-                "holiday_status_id": self.holiday_type.id,
+                "work_entry_type_id": self.holiday_type.id,
                 "employee_id": self.employee_2.id,
             }
         )
